@@ -30,6 +30,11 @@ La faccina fa venire in mente *qualcos’altro*.
 Ma *che cosa* precisamente? Dipende.  
 È il paradosso dell’*aporia semiotica*: il segno più universale è anche il più privato.
 
+**Stabat rosa pristina nomine; nomina nuda tenemus.**
+
+La rosa primigenia stava nel nome; noi teniamo nomi nudi.
+Così la faccina: un tempo era il volto, oggi è il nome del volto, e il volto è svanito.
+
 
 ## II. Grammatica degli affetti: dal *bestiario* al *faccinario*
 
