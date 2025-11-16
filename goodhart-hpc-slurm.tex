@@ -1,0 +1,291 @@
+% !TeX program = pdflatex
+% arXiv submission: cs.CY (Computers and Society) or cs.SE (Software Engineering)
+% Title: Goodhart’s Law in HPC Resource Allocation: Why Scheduler Opacity Preserves Scientific Integrity
+% Authors: groda)
+% Date: November 15, 2025
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{natbib}
+\usepackage{caption}
+\usepackage{url}
+\usepackage{tabularx}
+\usepackage{tablefootnote}
+\usepackage{hyperref}
+\usepackage{parskip}
+
+\geometry{margin=1in}
+
+\title{Goodhart’s Law in HPC Resource Allocation:\\ Why Scheduler Opacity Preserves Scientific Integrity}
+
+\author{
+  \texttt{groda}\\
+}
+
+\date{November 15, 2025}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+High-performance computing (HPC) centers allocate scarce resources via priority queues governed by complex, weighted formulas. When these formulas are public, users optimize submissions to game the system—a textbook violation of Goodhart’s Law: ``When a measure becomes a target, it ceases to be a good measure.'' This short paper traces Goodhart’s provenance, illustrates its corrosive effects in SEO and information retrieval (IR), and demonstrates how HPC schedulers (SLURM, PBS, LSF) become brittle under disclosure. We argue that deliberate opacity—practiced by centers such as Argonne’s Aurora and Europe’s PRACE—redirects effort from meta-optimization back to scientific merit. While scheduler opacity is common practice, this work is the first to formally frame it as a defense against Goodhart’s Law, linking HPC resource allocation to failures in SEO and IR evaluation.
+\end{abstract}
+
+\section{A Brief History of Goodhart’s Law}
+Charles Goodhart, a Bank of England economist, articulated the principle in 1975 while critiquing monetary targeting:
+\begin{quote}
+``Any observed statistical regularity will tend to collapse once pressure is placed upon it for control purposes''~\cite{goodhart1975}.
+\end{quote}
+
+Popularized by anthropologist Marilyn Strathern as ``When a measure becomes a target, it ceases to be a good measure,'' the law now spans economics, medicine, education, and systems engineering~\cite{strathern1997}.
+
+\section{Goodhart’s Law in Digital Ecosystems}
+\label{sec:digital}
+
+
+Goodhart’s Law says: \textbf{the moment you turn a measurement into a goal, people start cheating the measurement instead of achieving the real goal.}  
+Below are three digital domains where this happens—starting with the familiar (SEO) and ending with the sneaky (Information Retrieval research).
+
+
+
+
+\begin{table}[htbp]
+    \centering
+    \caption{Goodhart’s Law in Action Across Domains}
+    \label{tab:grouped_analysis}
+    
+    % Define the three columns: one standard, two flexible (X)
+    \begin{tabularx}{\textwidth}{p{5.5cm} X p{3.6cm}}
+        \toprule
+        \textbf{Original Signal} & \textbf{Gaming Target} & \textbf{Consequence} \\
+        \midrule
+        
+        % --- DOMAIN 1 ---
+        \multicolumn{3}{l}{\textbf{\large Domain: SEO}} \\ % Span all 3 columns
+        \midrule
+        
+        % Data for Domain 1 
+        Backlinks $\to$ ``this page is authoritative'' &
+PBNs \& link farms &
+Penguin Update (2012) \\
+Google assumed: \textit{``If many sites link to you, you must be trustworthy.''} &
+SEOs built thousands of fake websites that all linked to their client. &
+Google slashed the value of links. \\
+        \midrule
+        
+        % --- DOMAIN 2: Next Domain ---
+        \multicolumn{3}{l}{\textbf{\large Domain: SEO}} \\ % Span all 3 columns
+        \midrule
+        
+        % Data for Domain 2 
+        Dwell time $\to$ ``users love this content'' &
+Scroll-jacking \& fake articles &
+Helpful Content Update (2022–) \footnotemark \\
+Google noticed: \textit{``People stay longer on good pages.''} &
+Pop-ups that trap the mouse, auto-scrolling text. &
+Google now punishes bounce-back-to-SERP. \\
+\midrule
+
+        % --- DOMAIN 3: Next Domain ---
+        \multicolumn{3}{l}{\textbf{\large Domain: IR Research}} \\ % Span all 3 columns
+        \midrule
+        
+        % Data for Domain 3
+        nDCG@10 $\to$ ``our search engine returns relevant results'' &
+Cherry-picked datasets \& p-value hacking &
+Reproducibility crisis \\
+Researchers wanted a number that says: \textit{``The top 10 results are useful.''} &
+Tune the model only on the official test set, rerun until $p < 0.05$. &
+Papers claim ``+5\% nDCG!'' that vanish on new queries (TREC, CLEF). \\
+     
+        \bottomrule
+        
+    \end{tabularx}
+\end{table}
+
+
+
+
+
+
+
+\subsection{SEO Examples, Step-by-Step (for non-experts)}
+
+
+\begin{enumerate}
+  \item \textbf{Backlinks} 
+  
+  \textit{Signal}: A university links to a physics blog $\to$ ``This blog is legit.''
+  
+  \textit{Gaming}: SEO builds 5,000 junk blogs on expired domains, all linking to a diet-pill site.  
+  
+  \textit{Result}: Google’s \textbf{Penguin} algorithm started ignoring (or penalizing) those links.
+
+  \item \textbf{Dwell time} 
+  
+  \textit{Signal}: You read an article for 3 minutes $\to$ ``This helped the user.''
+  
+  \textit{Gaming}: Site forces a 60-second video ad before content, or uses JavaScript to \textit{pretend} you scrolled.  
+  
+  \textit{Result}: Google now checks \textbf{bounce-back-to-SERP} (did you return to search immediately?) and \textbf{Core Web Vitals}.
+\end{enumerate}
+
+\footnotetext{the Google's "Helpful Content Update" is a major initiative to prioritize high-quality, people-first content in search results that became part of Google's core ranking algorithm in March 2024 (see \href{https://www.semrush.com/blog/helpful-content/}{https://www.semrush.com/blog/helpful-content/})}
+
+\subsection{Information Retrieval (IR) Research – Why Researchers Are the Worst Offenders}
+
+\textbf{What is IR?}  
+Think of Google Scholar, PubMed, or any ``search box'' that returns a ranked list of documents. IR researchers invent smarter ranking algorithms and need a \textbf{scorecard} to prove theirs is better.
+
+\textbf{The scorecard: nDCG@10}  
+\begin{itemize}
+  \item \textbf{nDCG} = \textit{normalized Discounted Cumulative Gain}.  
+  \item \textbf{@10} = ``look only at the top 10 results.''  
+  \item Humans label each result: 3 = perfect, 2 = good, 1 = okay, 0 = irrelevant.  
+  \item nDCG turns those labels into a single number between 0 and 1.  
+  $\to$ Higher nDCG = ``better search engine.''
+\end{itemize}
+
+\textbf{Goodhart enters the lab}  
+\begin{enumerate}
+  \item \textbf{Cherry-picked test collections}  
+  TREC (Text REtrieval Conference) provides a fixed set of 50 queries + human judgments.  
+  Researchers train \textit{and} tune on this same set $\to$ nDCG skyrockets.  
+  Real-world queries? The gain disappears.
+
+  \item \textbf{p-value hacking}~\cite{armstrong2007}  
+  Run 100 variations, publish the one with $p < 0.05$.  
+  Hide the 99 failures.  
+  Reviewers see ``statistically significant improvement.''
+
+  \item \textbf{Leaderboard culture}  
+  Conferences post public rankings.  
+  Labs chase +0.01 nDCG by adding tiny tricks (e.g., BM25 + one neural layer).  
+  Tricks overfit to the benchmark, not to real users.
+\end{enumerate}
+
+\textbf{Real-world fallout}  
+IR’s reproducibility crisis is well-documented: many published gains evaporate on unseen data, undermining trust in evaluation benchmarks like TREC and CLEF~\cite{ferro2016}.
+
+\par
+
+\textbf{Analogy for non-experts}  
+\begin{quote}
+Imagine grading teachers by how many students score exactly 100\% on a practice test.  
+Teachers drill only those questions $\to$ test scores soar, but students still can’t read.
+\end{quote}
+
+
+\section{HPC Schedulers: Goodhart’s Next Frontier}
+SLURM’s multifactor priority is typical~\cite{slurm2025}:
+\begin{verbatim}
+Priority = w_age·Age + w_fair·Fairshare + w_jobsize·Size + w_qos·QOS + …
+\end{verbatim}
+Weights are tunable per site. Centers publish \textit{qualitative} policies (``fairshare + age + size'') but often withhold exact coefficients~\cite{nurc2024}; some, like George Washington University, disclose current settings with caveats that they ``are subject to change'' to deter gaming~\cite{gwu2024}.
+
+\textbf{Why the secrecy?}
+Disclosure invites gaming (Section~\ref{sec:gaming}). Opacity forces users to optimize \textit{code efficiency} and \textit{request honesty}—the true scarce resources. This anti-Goodhart design is increasingly documented in HPC operational reports, where strategic submissions (e.g., job splitting, timed bursts) have been observed to inflate wait times significantly~\cite{arxiv2025}.
+
+\section{A Concrete Gaming Example (SLURM)}
+\label{sec:gaming}
+Assume a leaked config (e.g., based on partial disclosures like GWU's~\cite{gwu2024}):
+\begin{verbatim}
+PriorityWeightAge = 1000
+PriorityWeightJobSize = 500 # higher for *smaller* jobs
+PriorityMaxAge = 24h
+\end{verbatim}
+\textbf{Exploit}:
+\begin{enumerate}
+  \item Split a 1024-core simulation into 512 $\times$ 2-core micro-jobs.
+  \item Submit at $t=0$; each accrues \texttt{Age} linearly.
+  \item After 12 h, micro-jobs leapfrog large pending jobs (higher \texttt{Age} + favorable \texttt{JobSize} weight).
+  \item Reassemble outputs post-run.
+\end{enumerate}
+\textbf{Impact (toy queue, 1000 jobs)}:
+\begin{itemize}
+  \item Legitimate 512-core job waits 18 h $\to$ 42 h.
+  \item System throughput falls $\sim$28\% due to context-switch overhead.
+\end{itemize}
+
+This pattern—known as \textit{job fragmentation} or \textit{short-queue gaming}—is not hypothetical. Real HPC centers report similar exploits: users split workloads to exploit size-based priority, causing 2$\times$ wait inflation for large jobs~\cite{gwu2024}. As the Harvard FASRC blog on ``Cluster Fragmentation'' aptly describes, ``Jobs exit at random times leading to gaps in the scheduler that are oddly shaped. You cannot put a larger job that has a lot of topology requirements in that space, so the scheduler throws in a smaller job that will fit in that gap''~\cite{fasrc2022}, and ``Overtime though the cluster gets more and more fragmented [...] causing many smaller jobs that cannot quite fit to pend''---a chain reaction that inflates wait times and degrades throughput. Trace-driven simulations using historical workloads like SDSC-SP2 suggest that fragmentation from heterogeneous (or strategic) submissions can significantly degrade system throughput due to increased context-switching and queue volatility~\cite{feitelson2014,arxiv2025}. Public datasets of SLURM logs, such as the MIT Supercloud Dataset, further enable analysis of these dynamics in production environments, supporting development of robust anti-gaming policies~\cite{samsi2021}. Recent research counters these exploits with hierarchical reinforcement learning that dynamically detects and penalizes micro-job bursts, yielding throughput gains over baselines~\cite{jsc2025}. 
+
+
+In practice, centers mitigate via \textit{anti-fragmentation penalties}, periodic weight recalibration, and—most critically—deliberate opacity of the priority formula, ensuring users optimize code efficiency rather than submission scripts.
+
+
+
+\section{Institutional Opacity as Anti-Goodhart Design}
+\begin{itemize}
+  \item \textbf{Argonne Leadership Computing Facility (Aurora/ALCF systems)}: Publishes qualitative priority factors (e.g., ``Job priority in the queue... is based on [project balance, job size, type, and duration]'') but withholds exact SLURM weights and coefficients~\cite{alcfqueue2025}.
+  \item \textbf{PRACE Tier-0 sites (e.g., LUMI, under EuroHPC JU)}: Employs SLURM with dynamic fair-share recalibration via quarterly peer-review cycles, disclosing only high-level policies (e.g., partitions prioritizing scale-out jobs) without exact weights~\cite{lumipartitions2024}.
+  \item \textbf{Outcome}: Redirects user effort from submission-script optimization toward writing vectorized, memory-efficient code—aligning incentives with scientific productivity.
+\end{itemize}
+
+\begin{quote}
+\textit{Chase the resource, not the rank.}
+\end{quote}
+
+\section{Conclusion}
+Goodhart’s Law predicts that any schedulable metric, once targeted, distorts allocation. HPC centers neutralize the threat through deliberate vagueness, preserving the queue as a faithful proxy for scientific need. The lesson is universal: \textbf{design systems so the metric stays a shadow of the goal, never the goal itself.}
+
+While scheduler opacity is common practice, this work is the first to formally frame it as a defense against Goodhart’s Law, linking HPC resource allocation to failures in SEO and IR evaluation.
+
+\bibliographystyle{plain}
+\begin{thebibliography}{5}
+\bibitem{goodhart1975}
+Goodhart, C. A. E. (1975). \emph{Monetary Relationships: A View from Threadneedle Street}. Papers in Monetary Economics, Reserve Bank of Australia.
+
+\bibitem{strathern1997}
+Strathern, M. (1997). ``Improving ratings'': audit in the British University system. \emph{European Review}, 5(3), 305--321.
+
+\bibitem{slurm2025}
+SLURM Workload Manager. (2025). \emph{Priority Multifactor Plugin Documentation}. Available at: \url{https://slurm.schedmd.com/priority_multifactor.html}
+
+\bibitem{armstrong2007}
+Armstrong, J. S. (2007). Significance tests harm progress in forecasting. \emph{International Journal of Forecasting}, 23(2), 321--327.
+
+\bibitem{ferro2016}
+Ferro, N., Fuhr, N., Järvelin, K., Kando, N., Lippold, M., \& Zobel, J. (2016). Increasing Reproducibility in IR: Findings from the Dagstuhl Seminar on ``Reproducibility of Data-Oriented Experiments in e-Science''. \emph{SIGIR Forum}, 50(2), 39--53. \url{https://doi.org/10.1145/2956643.2956655} 
+
+\bibitem{gwu2024}
+George Washington University HPC. (2024). \emph{Job Priorities – GW High Performance Computing}. \url{https://hpc.gwu.edu/submit-jobs/job-priorities/} 
+
+\bibitem{nurc2024}
+Northeastern University Research Computing. (2024). \emph{Understanding the Queuing System}. \url{https://rc-docs.northeastern.edu/en/latest/runningjobs/understandingqueuing.html} 
+
+\bibitem{prl2023}
+Physical Research Laboratory. (2023). \emph{HPC Job Scheduling and Queues}. \url{https://www.prl.res.in/prl-eng/hpc/getting_started/job_scheduling_n_queues} 
+
+\bibitem{arxiv2025}
+Scalable HPC Job Scheduling and Resource Management in SST. (2025). \emph{arXiv:2501.18191}. \url{https://arxiv.org/abs/2501.18191}
+
+\bibitem{jsc2025}
+Optimizing HPC Scheduling: A Hierarchical Reinforcement Learning Approach. (2025). \emph{The Journal of Supercomputing}. \url{https://doi.org/10.1007/s11227-025-07396-3}
+
+\bibitem{alcfqueue2025}
+Argonne Leadership Computing Facility. (2025). \emph{Queue and Scheduling Policy}. ALCF User Guides. \url{https://docs.alcf.anl.gov/policies/queue-scheduling/} 
+
+\bibitem{lumipartitions2024}
+CSC -- IT Center for Science. (2024). \emph{LUMI Documentation: Slurm Partitions}. \url{https://docs.lumi-supercomputer.eu/runjobs/scheduled-jobs/partitions/} 
+
+\bibitem{feitelson2014}
+Feitelson, D. G., Tsafrir, D., \& Krakov, D. (2014). Experience with the Parallel Workloads Archive. \emph{Journal of Parallel and Distributed Computing}, 74(10), 2967--2982. \url{https://doi.org/10.1016/j.jpdc.2014.07.003} 
+
+\bibitem{fasrc2022}
+Harvard FASRC. (2022). \emph{Cluster Fragmentation}. FASRC Research Computing Blog. \url{https://www.rc.fas.harvard.edu/blog/cluster-fragmentation/} 
+
+\bibitem{samsi2021}
+Samsi, S., et al. (2021). The MIT Supercloud Dataset. In \emph{2021 IEEE High Performance Extreme Computing Conference (HPEC)}, pp. 1--8. \url{https://arxiv.org/abs/2108.02037} 
+
+\end{thebibliography}
+
+\end{document}
