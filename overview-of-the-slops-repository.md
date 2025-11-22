@@ -46,7 +46,7 @@ Based on the titles, one list appears to be specific to DevOps (a set of practic
 
 ### 2.2 Hello, MPI
 
-The file hello_mpi.md likely serves as a beginner's guide to MPI, which stands for Message Passing Interface. MPI is a standard used for writing parallel programs that can run on supercomputers or large computer clusters. The "Hello" in the title suggests this document is likely a basic 'Hello, World!' style example for parallel computing.
+The file [hello_mpi.md](hello_mpi.md) likely serves as a beginner's guide to MPI, which stands for Message Passing Interface. MPI is a standard used for writing parallel programs that can run on supercomputers or large computer clusters. The "Hello" in the title suggests this document is likely a basic 'Hello, World!' style example for parallel computing.
 
 ### 2.3 Fenomenologia delle Faccine
 
