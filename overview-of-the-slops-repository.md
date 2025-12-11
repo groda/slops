@@ -17,7 +17,7 @@ This section covers projects that, based on their file names (such as .pdf and .
 
 This project likely explores different ways to charge for using powerful AI models, similar to how a cell phone plan might have different data tiers for different prices. Its files confirm this academic focus: it includes a bibliography file (.bib) for managing citations and a LaTeX (.tex) source file, the standard for professional academic typesetting.
 
-* [Tiered_Pricing_Serverless_LLM.pdf](Tiered_Pricing_for_Serverless_LLM_Inference/Tiered_Pricing_Serverless_LLM.pdf)
+* [Tiered_Pricing_Serverless_LLM.pdf](https://github.com/groda/slops/blob/main/Tiered_Pricing_for_Serverless_LLM_Inference/Tiered_Pricing_for_Serverless_LLM_Inference.pdf)
 * [Tiered_Pricing_for_Serverless_LLM_Inference.bib](Tiered_Pricing_for_Serverless_LLM_Inference/Tiered_Pricing_for_Serverless_LLM_Inference.bib)
 * [Tiered_Pricing_for_Serverless_LLM_Inference.tex](Tiered_Pricing_for_Serverless_LLM_Inference/Tiered_Pricing_for_Serverless_LLM_Inference.tex)
 
@@ -54,6 +54,11 @@ The Italian title of this file, `fenomenologia_delle_faccine.md`, translates to 
 
 Finally, the repository includes one project that contains not just a document but also a Python script.
 
+### 2.4 Human in the Loop
+
+A short speculative essay titled "Human in the Loop" exploring the persistence of the Mercy Clause in 2048 AI systems. The piece highlights the enduring role of humans in automated systems, emphasizing how even routine, habitual "OK" taps preserve a subtle but essential human influence in an increasingly automated world.
+
+[Human_in_the_Loop.md](Human_in_the_Loop.md)
 
 ## 3. A Project with Code: 'ibt'
 
