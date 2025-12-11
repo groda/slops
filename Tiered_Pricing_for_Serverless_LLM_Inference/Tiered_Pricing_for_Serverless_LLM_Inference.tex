@@ -1,0 +1,83 @@
+% Defining document class
+\documentclass[11pt]{article}
+
+% Including essential packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{parskip}
+\setlength{\parskip}{1em}
+\setlength{\parindent}{0pt}
+
+% Setting title, author, and date
+\title{Reflections on Tiered Pricing for Serverless LLM Inference: Lessons from HPC Efficiency}
+\author{groda} % Replace with your real name and company
+\date{December 2025}
+
+% Beginning document
+\begin{document}
+
+\maketitle
+
+% Abstract
+\begin{abstract}
+Serverless computing promises cost-efficient LLM inference but struggles with cold start latency due to large checkpoints. Drawing from non-serverless practices like pre-caching to NVMe SSDs, this reflective discussion explores a tiered pricing model—cold, warm, and hot starts—for serverless LLM inference, inspired by Hadoop's data locality. Using ServerlessLLM's optimizations (RAM/SSD pre-caching, token caching), the model offers practical latency-cost trade-offs without dedicated GPUs. We compare it to existing strategies (e.g., AWS Reserved Instances, Azure Savings Plans) and note economic pressures like DDR5 RAM prices doubling in late 2025 due to AI demand. As an HPC practitioner, I share this to highlight inclusive efficiency discussions, encouraging diverse voices in a field often dominated by established experts. This is not cutting-edge research but a call for accessible HPC/AI pricing.
+\end{abstract}
+
+% Section: Introduction
+\section{Introduction}
+Serverless computing allocates GPU resources on-demand for LLM inference, reducing costs but introducing cold start latency—loading checkpoints like the 130GB LLaMA-2-70B into GPU memory. ServerlessLLM highlights two causes: large sizes (26 seconds from AWS S3 at 5GB/s) and loading processes (84 seconds with PyTorch's \texttt{torch.load()}) \citep{ServerlessLLM2024}. In non-serverless HPC, pre-caching to NVMe SSDs mitigates this, but serverless ephemerality limits manual control \citep{AWSSageMaker2025}.
+
+Providers like AWS SageMaker Serverless Inference, Azure Machine Learning, and Google Cloud Vertex AI use opaque pre-caching and per-token/per-millisecond pricing, without user-selectable tiers \citep{AWSSageMaker2025, AzureML2025, GoogleVertex2025}. AWS Lambda suits lightweight workloads but not large LLMs due to constraints \citep{AWSLambda2025}.
+
+ServerlessLLM reduces cold starts to 15--25 seconds via RAM/SSD pre-caching, custom formats, and pipelined loading (3.6--8.2$\times$ faster than PyTorch), with token caching for warm starts \citep{GoogleVertex2025}. As an HPC practitioner with hands-on experience in Hadoop clusters and private cloud infrastructure, I reflect on a tiered pricing model: cold (1 unit), warm (5 units), hot (20 units). Inspired by Hadoop's data locality \citep{Hadoop2008}, it promotes inclusive HPC by making efficiency accessible.
+
+% Section: Related Work
+\section{Related Work: Data Locality in Distributed Systems}
+Hadoop's data locality schedules MapReduce tasks on HDFS nodes with data to minimize transfers \citep{Hadoop2008}. ServerlessLLM pre-caches checkpoints/KV caches in RAM/SSD for similar proximity \citep{ServerlessLLM2024}. Pre-caching to SSD is standard in non-serverless ML \citep{AWSSageMaker2025}, but serverless limits it. This discussion extends locality to serverless LLM pricing, echoing tiered strategies in cloud/HPC (e.g., AWS on-demand/reserved, Azure spot VMs) \citep{CloudPricing2025}.
+
+% Section: Proposed Tiered Pricing Model
+\section{Proposed Tiered Pricing Model}
+This reflective model suggests three tiers for response speed, abstracting complexities like storage/token caching. ServerlessLLM's scheduler routes queries to pre-cached servers, avoiding dedicated GPUs. Tiers:
+
+\begin{itemize}
+    \item \textbf{Cold Start Tier (1 unit per query)}: Fetches from remote storage (e.g., S3), \textasciitilde60--120 seconds latency. Low-cost (base unit, e.g., similar to \$0.023/GB/month for S3 storage), for budget users tolerating waits.
+    \item \textbf{Warm Start Tier (5 units per query)}: Pre-caches on SSD (\textasciitilde7GB/s), \textasciitilde15--25 seconds cold starts, \textasciitilde50--100ms warm with token caching. Medium cost (5$\times$ base, e.g., reflecting SSD pricing \textasciitilde4--5$\times$ S3), for semi-interactive apps.
+    \item \textbf{Hot Start Tier (20 units per query)}: Pre-caches in RAM (\textasciitilde50GB/s), \textasciitilde10--15 seconds cold starts, <100ms warm, \textasciitilde10--50ms hot. High cost (20$\times$ base, e.g., reflecting RAM pricing \textasciitilde10--20$\times$ SSD), for real-time apps.
+\end{itemize}
+
+% Subsection: Cost Basis
+\subsection{Cost Basis}
+Units (1, 5, 20) reflect relative ratios: base for remote storage (e.g., S3 at \textasciitilde\$0.023/GB/month), 4--5$\times$ for SSD, 10--20$\times$ for RAM. DDR5 RAM prices doubled in late 2025 (e.g., 32GB kits from \textasciitilde\$95 mid-2025 to \textasciitilde\$184 Oct 2025) due to AI/HBM demand \citep{RAMTrends2025, Tom'sHardware2025}, raising hot tier costs but highlighting efficiency needs.
+
+% Section: Alignment with ServerlessLLM
+\section{Alignment with ServerlessLLM}
+ServerlessLLM's pre-caching in RAM/SSD and pipelined loading (3.6--8.2$\times$ faster than PyTorch) support warm/hot tiers \citep{ServerlessLLM2024}. Token caching accelerates warm starts \citep{GoogleVertex2025}. The scheduler routes to pre-cached servers, maintaining multi-tenant efficiency. Unused GPU capacity (100s GB DRAM, TBs SSD) enables scalability.
+
+% Section: Benefits
+\section{Benefits of the Pricing Model}
+The proposed pricing model offers several advantages for both users and cloud providers. It empowers users to choose between speed and cost, enabling hobbyists to opt for the low-cost cold start tier (1 unit) while real-time applications, such as chatbots, can utilize the high-performance hot start tier (20 units). This flexibility mirrors the efficiency of non-serverless setups, where developers manually pre-cache models and optimize inference, but delivers it within a fully managed serverless environment, justifying the higher costs of warm (5 units) and hot tiers. For providers, the model optimizes revenue by charging premiums for faster tiers, offsetting the higher costs of SSD and RAM infrastructure. The cold/warm/hot-start terminology provides transparency, clearly communicating latency expectations (e.g., less than 15 seconds for hot starts), unlike the opaque caching mechanisms of existing providers. This approach encourages broader participation from HPC newcomers and practitioners, echoing tiered strategies like AWS Reserved Instances (up to 72\% savings) or Azure Savings Plans \citep{CloudPricing2025}.
+
+% Section: Challenges and Solutions
+\section{Challenges and Solutions}
+Implementing the proposed pricing model presents several challenges, primarily due to the resource constraints and dynamic nature of serverless environments. GPU server RAM, typically limited to around 512GB, restricts the number of model checkpoints that can be pre-cached for the hot tier. To address this, ServerlessLLM’s scheduler can prioritize high-demand models for RAM storage, relegating less frequently used models to SSD or remote storage, ensuring efficient resource utilization. Another challenge is the variability in warm and hot start performance, as the availability of pre-loaded models or cached tokens depends on workload patterns. This can be mitigated by guaranteeing maximum cold start latencies for each tier (e.g., 25 seconds for warm, 15 seconds for hot), treating warm and hot starts as performance bonuses when token caching or pre-loaded models are available. Calibrating the pricing ratios (1, 5, 20 units) also requires careful consideration to align with infrastructure costs, such as RAM (\textasciitilde\$1--2/GB) versus SSD (\textasciitilde\$0.10/GB). Providers can address this by analyzing cost structures and query patterns to fine-tune these multipliers, ensuring economic viability. Finally, users may need clarity on the latency implications of each tier. To facilitate adoption, providers can integrate user interface indicators, such as ``Hot: \textless15 seconds,'' into their platforms, enhancing transparency and ease of use.
+
+% Section: Comparison to Existing Models
+\section{Comparison to Existing Models}
+Pre-caching checkpoints to NVMe SSD is a standard practice in non-serverless ML, where developers download models before \texttt{torch.load()} to reduce latency \citep{AWSSageMaker2025}. However, in serverless environments, ephemeral resources limit manual control. AWS SageMaker Serverless Inference, a key platform for serverless ML, employs opaque pre-caching (e.g., escrowing models to SSD) and charges per inference duration (e.g., \$0.0003/second with Provisioned Concurrency) \citep{AWSSageMaker2025}. Similarly, Azure Machine Learning and Google Cloud Vertex AI use per-token or per-millisecond pricing with features like context caching (75\% discount for cached tokens), but lack user-selectable latency tiers \citep{AzureML2025, GoogleVertex2025}. AWS Lambda, Amazon’s flagship serverless platform, supports lightweight workloads but is less suited for large-scale LLM inference due to resource constraints (e.g., 10GB memory limit) \citep{AWSLambda2025}. Examples include AWS Reserved Instances (commitment discounts), Azure Spot VMs (interruptible savings), Google Preemptible (up to 80\% off) \citep{CloudPricing2025}. This model reflects these for LLM efficiency.
+
+% Section: Conclusion
+\section{Conclusion}
+This tiered model (1, 5, 20 units) reflects on serverless LLM pricing, using ServerlessLLM for non-serverless efficiency without dedicated GPUs. Inspired by Hadoop \citep{Hadoop2008}, it promotes inclusive HPC discussions amid rising RAM costs \citep{RAMTrends2025}. As an HPC practitioner, I share this to encourage diverse voices in a field needing broader perspectives.
+
+% Bibliography
+\bibliographystyle{plain}
+\bibliography{Tiered_Pricing_for_Serverless_LLM_Inference}
+
+\end{document}

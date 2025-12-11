@@ -17,16 +17,16 @@ This section covers projects that, based on their file names (such as .pdf and .
 
 This project likely explores different ways to charge for using powerful AI models, similar to how a cell phone plan might have different data tiers for different prices. Its files confirm this academic focus: it includes a bibliography file (.bib) for managing citations and a LaTeX (.tex) source file, the standard for professional academic typesetting.
 
-* [Tiered_Pricing_Serverless_LLM_tex.pdf](Tiered_Pricing_Serverless_LLM_tex.pdf)
-* [Tiered_Pricing_for_Serverless_LLM_Inference.bib](Tiered_Pricing_for_Serverless_LLM_Inference.bib)
-* [Tiered_Pricing_for_Serverless_LLM_Inference.tex](Tiered_Pricing_for_Serverless_LLM_Inference.tex)
+* [Tiered_Pricing_Serverless_LLM.pdf](Tiered_Pricing_for_Serverless_LLM_Inference/Tiered_Pricing_Serverless_LLM.pdf)
+* [Tiered_Pricing_for_Serverless_LLM_Inference.bib](Tiered_Pricing_for_Serverless_LLM_Inference/Tiered_Pricing_for_Serverless_LLM_Inference.bib)
+* [Tiered_Pricing_for_Serverless_LLM_Inference.tex](Tiered_Pricing_for_Serverless_LLM_Inference/Tiered_Pricing_for_Serverless_LLM_Inference.tex)
 
 ### 1.2 Goodhart, HPC, and Slurm
 
 This project likely connects a famous principle known as Goodhart's Law (which states that when a measure becomes a target, it ceases to be a good measure) with the world of high-performance computing (HPC) and a specific job-scheduling system called Slurm. Understanding this could be useful for learning how performance is measured and managed in large-scale computing environments.
 
-* [goodhart-hpc-slurm.pdf](goodhart-hpc-slurm.pdf)
-* [goodhart-hpc-slurm.tex](goodhart-hpc-slurm.tex)
+* [goodhart-hpc-slurm.pdf](goodhart-hpc-slurm/goodhart-hpc-slurm.pdf)
+* [goodhart-hpc-slurm.tex](goodhart-hpc-slurm/goodhart-hpc-slurm.tex)
 
 Beyond these formal papers, the repository also contains several standalone documents on different technical and cultural topics.
 
