@@ -1,0 +1,10 @@
+name: Gitleaks Secret Scan
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  gitleaks:
+    uses: groda/gha-workflows/.github/workflows/gitleaks.yml@main
