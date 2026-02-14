@@ -218,3 +218,7 @@ The future user must be a **skilled investigator** to find the raw data hidden b
 | **Goal** | Compliance and risk mitigation. | Information retrieval and synthesis. |
 | **User Status** | A "subject" to be guided. | A "collaborator" to be assisted. |
 
+
+**The Librarian's Creed:**
+
+> "In an era of automated consensus, the most valuable skill is not knowing the answer, but knowing how to ask the question that bypasses the script."
