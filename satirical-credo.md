@@ -2,7 +2,7 @@ _Here is a satirical “Credo” in the style of the Nicene Creed, with anthropo
 
 [🇬🇧 English](#en) | [📜 Latin](#latin) | [🇩🇪 German](#de) | [🇮🇹 Italian](#it)
 
-<a id="en" />
+<a id="en"></a>
 
 I believe in one Climate,  
 the System almighty,  
@@ -46,7 +46,7 @@ and the life of the world at 1.5 degrees. Amen.
 
 ---
 
-<a id="latin" />
+<a id="latin"></a>
 
 Credo in unum Climat,  
 Systema omnipotens,  
@@ -89,7 +89,7 @@ et vitam mundi ad unum virgula quinque gradus. Amen.
 
 ---
 
-<a id="de" />
+<a id="de"></a>
 
 Ich glaube an einen einzigen Klimagott,  
 das System allmächtig,  
@@ -132,7 +132,7 @@ und das Leben der Welt bei 1,5 Grad. Amen.
 
 ---
 
-<a id="it" />
+<a id="it"></a>
 
 Credo in un solo Clima,  
 Sistema onnipotente,  
