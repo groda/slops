@@ -1,6 +1,6 @@
 # From Vibe Coding to Agentic Engineering: The Maturing of AI-Assisted Development
 
-**Date:** March 21, 2026
+***Prompted by groda • March 21, 2026***
 
 Andrej Karpathy (big name in AI: co-founder of OpenAI, ex-Tesla AI lead) coined the term "vibe coding" around February 2025. It described embracing AI's exponential improvements and just going with the flow—forgetting traditional careful coding and letting AI handle chunks of implementation. It was playful and celebratory at first.
 
