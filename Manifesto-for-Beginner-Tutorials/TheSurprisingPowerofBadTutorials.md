@@ -1,5 +1,9 @@
 # The Surprising Power of "Bad" Tutorials: Why Repetitive, Messy Content Sometimes Wins for Beginners
 
+***by groda***
+
+***April 13, 2026***
+
 A few years ago, a CS student interning with us casually said, “It’s on GeeksForGeeks,” as if that settled the matter. I was surprised—she was quoting a site I saw primarily as an SEO powerhouse like it was the authoritative bible of computer science. Many people experience the same thing: you Google a coding or math question, notice the same site popping up first (or near the top) repeatedly, and suddenly it feels like the default source. Repeated exposure creates trust, even when the content quality varies wildly.
 
 GeeksforGeeks (often abbreviated as GFG) used to consistently rank at or near the top of Google search results for a huge range of coding, data structures, algorithms, interview questions, and even some math-related programming topics. This wasn't just "great SEO"—it was the result of several factors working together over many years.
