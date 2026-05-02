@@ -28,25 +28,43 @@ This was one of the more dramatic examples of Google's push (especially post-Hel
 
 One such survivor is the page that still ranks on the first page (around #7) for the simple query "what is a function". I was appalled by how the page is of bad quality, repetitive and unstructured (https://www.geeksforgeeks.org/maths/what-is-a-function/).
 
-- "A function is a special relation or method..." 
-<img alt="A function is a special relation or method..." style="border: .5px solid;" src="function01.png"/>
+- "A function is a special relation or method..."
 
-- and then "A function in mathematics is a relation between ..." 
-<img alt="A function in mathematics is a relation between ..." style="border: .5px solid;" src="function02.png"/>
+  <kbd>
+  <img alt="A function is a special relation or method..." style="border: 1px solid #e1e4e8; border-radius: 6px;" src="function01.png" width="600"/>
+  </kbd>
+
+- and then "A function in mathematics is a relation between ..."
+
+  <kbd>
+  <img alt="A function in mathematics is a relation between ..." style="border: .5px solid;" src="function02.png" width="600"/>
+  </kbd>
 
 - and again "A function in mathematics f is defined as y = f(x)" ("a function in mathematics f", what's that for an ordering of words?) 
-<img alt="A function in mathematics f is defined as y = f(x)" style="border: .5px solid;" src="function03.png"/>
+
+  <kbd>
+  <img alt="A function in mathematics f is defined as y = f(x)" style="border: .5px solid;" src="function03.png" width="600"/>
+  </kbd>
 
 - and yet again "Condition for a Function. For any two non-empty sets A and B, a function f: A→B denotes that f is a function..." 
-<img alt="For any two non-empty sets A and B, a function f: A→B denotes that f is a function" style="border: .5px solid;" src="function04.png"/>
+
+  <kbd>
+  <img alt="For any two non-empty sets A and B, a function f: A→B denotes that f is a function" style="border: .5px solid;" src="function04.png" width="600"/>
+  </kbd>
 
 - "We can define a function in mathematics as a machine that takes some input ..."
-<img alt="A function in mathematics f is defined as y = f(x)" style="border: .5px solid;" src="function05.png"/>
+
+  <kbd>
+  <img alt="A function in mathematics f is defined as y = f(x)" style="border: .5px solid;" src="function05.png" width="600"/>
+  </kbd>
 
 - Noooooo "How to Identify a Function? The function is classified as a special type of relation in math...."  
-<img alt="For any two non-empty sets A and B, a function f: A→B denotes that f is a function" style="border: .5px solid;" src="function06.png"/>
 
+  <kbd>
+  <img alt="For any two non-empty sets A and B, a function f: A→B denotes that f is a function" style="border: .5px solid;" src="function06.png" width="600"/>
+  </kbd>
 
+<p></p>
 This is a *really* bad quality article. It screams low-effort, mass-produced content—often churned out quickly (possibly with templated writing under tight deadlines or low wages). Yet it clings to page 1 thanks to lingering domain trust in the CS/math-for-programming niche, search intent from Indian students prepping for exams and placements, and the simple fact that Google’s systems are not binary.
 
 That frustration led me to a surprising realization: maybe students *like* bad, unstructured, repetitive content with typos. It speaks to them because it's at their level. Many "didactic" sites feel boring or too high-level. Repetitive explanations hammer the same point from multiple angles ("a function is a relation... also a special method... y = f(x)..."), which can feel reassuring when you're confused. It mimics how beginners think: circling around an idea until it clicks, rather than a concise, elegant one-shot explanation that assumes prior knowledge.
