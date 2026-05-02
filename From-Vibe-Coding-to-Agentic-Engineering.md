@@ -4,12 +4,20 @@
 
 Andrej Karpathy (big name in AI: co-founder of OpenAI, ex-Tesla AI lead) coined the term "vibe coding" around February 2025. It described embracing AI's exponential improvements and just going with the flow—forgetting traditional careful coding and letting AI handle chunks of implementation. It was playful and celebratory at first.
 
-From the original source (Karpathy's [February 2, 2025, X post](https://x.com/karpathy/status/1886192184808149383)):
-> _There's a new kind of coding I call “vibe coding”, where you fully give in to the vibes, embrace exponentials, and forget that the code even exists. ..._
+From the original tweet:
+
+
+<blockquote class="twitter-tweet">
+  <p lang="en" dir="ltr"><em>There&#39;s a new kind of coding I call &quot;vibe coding&quot;, where you fully give in to the vibes, embrace exponentials, and forget that the code even exists.</em></p>
+  &mdash; Andrej Karpathy (@karpathy) <a href="https://x.com/karpathy/status/1886192184808149383">February 2, 2025</a>
+</blockquote>
 
 But a year later (early 2026), Karpathy himself said vibe coding (in its loose, low-oversight form) is basically over for serious work. AI models got way better, and people now use more autonomous agents (AI that can run code, fix errors, edit files, run tests, etc.) instead of one-shot prompting.
 
- > _The one thing I'd add is that at the time, LLM capability was low enough that you'd mostly use vibe coding for fun throwaway projects, demos and explorations. It was good fun and it almost worked. Today (1 year later), programming via LLM agents is increasingly becoming a default workflow for professionals, except with more oversight and scrutiny. The goal is to claim the leverage from the use of agents but without any compromise on the quality of the software. Many people have tried to come up with a better name for this to differentiate it from vibe coding, personally my current favorite “agentic engineering”_
+<blockquote class="twitter-tweet">
+  <p lang="en" dir="ltr"><em>The one thing I'd add is that at the time, LLM capability was low enough that you'd mostly use vibe coding for fun throwaway projects, demos and explorations. It was good fun and it almost worked. Today (1 year later), programming via LLM agents is increasingly becoming a default workflow for professionals, except with more oversight and scrutiny. The goal is to claim the leverage from the use of agents but without any compromise on the quality of the software. Many people have tried to come up with a better name for this to differentiate it from vibe coding, personally my current favorite &quot;agentic engineering&quot;:<br>- &quot;agentic&quot; because the new default is that you are not writing the code directly 99% of the time, you are orchestrating agents who do and acting as oversight.<br>- &quot;engineering&quot; to emphasize that there is an art &amp; science and expertise to it. It&#39;s something you can learn and become better at, with its own depth of a different kind.</em></p>
+  &mdash; Andrej Karpathy (@karpathy) <a href="https://x.com/karpathy/status/2019137879310836075">February 4, 2026</a>
+</blockquote>
 
 He is not saying "stop using AI to code"—far from it—but warning that the reckless version of vibe coding (generate → copy-paste → commit without review) is dangerous for real projects, especially in teams or production codebases.
 
