@@ -14,3 +14,6 @@ jobs:
     uses: groda/gha-workflows/.github/workflows/link-check.yml@main
     with:
       issue-labels: "report, automated issue"
+      # Tell the tool to treat 403 as a successful response
+      # (often automated requests from GitHub Actions servers are blocked)
+      args: "--accept 403"
