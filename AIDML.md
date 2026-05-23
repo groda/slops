@@ -121,7 +121,7 @@ AIDML innovates AI-assisted scientific writing by embedding directives that leve
 
 6. Additional community discussions on structured prompting.
 
-7. POML Documentation - Microsoft Open Source. (2025). https://microsoft.github.io/poml/latest
+7. POML Documentation - Microsoft Open Source. (2025). [https://microsoft.github.io/poml/stable](https://microsoft.github.io/poml/stable/)
 
 8. microsoft/poml: Prompt Orchestration Markup Language. GitHub.
 
